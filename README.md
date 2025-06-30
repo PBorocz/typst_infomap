@@ -1,6 +1,6 @@
 # Information Mapping for Typst
 
-A simple Typst library implementing 'Information Mapping' methodology for creating structured, professional documents with consistent formatting and clear visual hierarchy.
+A simple Typst library implementing 'Information Mapping®' methodology for creating structured, professional documents with consistent formatting and clear visual hierarchy.
 
 ## Overview
 
@@ -291,10 +291,18 @@ See the `samples/` directory for complete example documents demonstrating:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Trademark Notice
+
+Information Mapping® is a trademark of Information Mapping, Inc. This project implements formatting concepts and methodologies inspired by Information Mapping® principles for use with the Typst typesetting system.
+
+This project is not affiliated with, endorsed by, or sponsored by Information Mapping, Inc. The use of Information Mapping® concepts and terminology in this project does not imply any ownership, endorsement, or commercial relationship with Information Mapping, Inc.
+
+The trademark rights remain with their respective owners.
+
 ## Contributing
 
 Open a PR!
 
 ## Acknowledgments
 
-Based on Information Mapping methodology developed by Robert Horn. Designed for the Typst typesetting system.
+Based on "Information Mapping" methodology developed by Robert Horn. Designed for the Typst typesetting system.
