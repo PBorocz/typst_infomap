@@ -4,7 +4,7 @@ A simple Typst library implementing the "Information Mapping®" formatting to cr
 
 ## Background
 
-"Information Mapping®" is a structured writing methodology that recognises that the majority of writing for professional purposes fall into one of size information _types_:
+"Information Mapping®" is a structured writing methodology that recognises that the majority of writing for professional purposes fall into one of six information _types_:
 
 | Type          | Description                               |
 |---------------|-------------------------------------------|
@@ -54,7 +54,7 @@ As close to a _true_ model of the original method as I could do, incorporating t
 
 ## Sample Document
 
-(This can also be found in the samples directory [readme_sample.typ](sample/readme_sample.typ))
+(This can also be found in the samples directory [readme_sample.typ](samples/readme_sample.typ))
 
 ```typst
 #import "infomap.typ": *
