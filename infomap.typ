@@ -158,31 +158,44 @@
 ]
 
 // =============================================================================
-#let ModernTable(headers, ..rows) = [
+#let Table-Modern(headers, ..rows) = [
   #table(
       columns: headers.len(),
       stroke: none,               // Turn stroke off as we'll control it explicitly below..
       align: left,
-
-      // Heavy line above headers
-      table.hline(stroke: 1.5pt),
-
-      // Header row
-      ..headers.map(h => [*#h*]),
-
-      // Light line below headers
-      table.hline(stroke: 0.5pt),
-
-      // Data rows
-      ..rows.pos().flatten(),
-
-      // Heavy line at bottom
-      table.hline(stroke: 1.5pt),
+      table.hline(stroke: 1.5pt), // Heavy line above headers
+      ..headers.map(h => [*#h*]), // Header row
+      table.hline(stroke: 0.5pt), // Light line below headers
+      ..rows.pos().flatten(),     // Data rows
+      table.hline(stroke: 1.5pt), // Heavy line at bottom
   )
 ]
 
 // =============================================================================
-#let ClassicTable(headers, ..rows) = [
+#let Table-Classic(headers, ..rows) = [
+  #table(
+      columns: headers.len(),
+      stroke: 0.75pt,
+      align: left,
+      // If we want the first column centered but the rest left-aligned:
+      // align: (center,) + (left,) * (headers.len() - 1),
+
+      ..headers.map(h => [*#h*]),
+      // If we want the headers centered:
+      // ..headers.map(h => [*#align(center)[#h]*]),
+
+      ..rows.pos().flatten(),
+      // If we want the first cell centered and the rest left-aligned:
+      // ..rows.pos().map(row => {
+      //     (align(center)[#row.at(0)],) + row.slice(1)
+      // }).flatten(),
+
+  )
+]
+
+// =============================================================================
+#let Table-Generic(headers, ..rows) = [
+    // Generic 2-Column table, where both sets of columns are provided.
   #table(
       columns: headers.len(),
 
@@ -205,22 +218,56 @@
   )
 ]
 
-#let ProcessTable(process_header, description_header, ..steps) = [
-  #table(
-    columns: 2,
-    stroke: 0.75pt,
-    align: (center, left),
+#let Table-AutoNum(header_column_1, header_column_2, ..steps) = [
+    // Generic 2-Column table, where the 1st column is AUTONUMBERED!
+    // Meant as a building block for more specific information types,
+    // probably not to be used directly.
+    #table(
+        columns: 2,
+        stroke: 0.75pt,
+        align: (center, left),
 
-    // Header row
-    [*#process_header*],
-    [*#description_header*],
+        // Header row
+        [*#header_column_1*],
+        [*#header_column_2*],
 
-    // Data rows with manual step numbering
-    ..steps.pos().enumerate().map(((index, step)) => (
-      [#(index + 1)],
-      [#step]
-    )).flatten()
-  )
+        // Data rows with manual step numbering
+        ..steps.pos().enumerate().map(((index, step)) => (
+            [#(index + 1)], // Enumerate starts at 0
+            [#step]
+        )).flatten()
+    )
+]
+
+// ========================================
+// Table "macros" for simplicity in markup
+// ========================================
+
+// obo Procedure Information Type:
+#let Table-StepAction(..steps) = [
+    #Table-AutoNum("Step", "Action", ..steps)
+]
+
+#let Table-IfThen(..steps) = [
+    #Table-Generic(("If", "Then"), ..steps)
+]
+
+// obo Process Information Type:
+#let Table-StageDescription(..steps) = [
+    #Table-Generic(("Stage", "Description"), ..steps)
+]
+
+#let Table-WhenThen(..steps) = [
+    #Table-Generic(("When", "Then"), ..steps)
+]
+
+// obo Structure Information Type:
+#let Table-PartFunction(..steps) = [
+    #Table-Generic(("Part", "Function"), ..steps)
+]
+
+#let Table-PartDescription(..steps) = [
+    #Table-Generic(("Part", "Description"), ..steps)
 ]
 
 

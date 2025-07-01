@@ -5,38 +5,12 @@
 #Section("A Section Heading")[
 
     #Block("Block with Text")[#lorem(50)]
+]
 
-    #Block("Block with Classic Table")[
-
-        This is a sample block that contains a simple, "classic" table.
-
-        #ClassicTable(
-            ("Long Column 1", "Column 2", "Column 3"),
-            ("1-1", "Datum 1-2", "Datum 1-3"),
-            ("2-1", "Datum 2-2", "Datum 2-3"),
-            ("3-1", "Datum 3-2", lorem(20)),
-        )
-    ]
-
-    #Block("Block with Modern Table")[
-
-        This is a sample block that contains a simple, modern table (the Classic table above *really* looks _old_ to my eyes even though I lived through the era!)
-
-        #ModernTable(
-            ("Column 1", "Column 2", "Column 3"),
-            ("Datum 1-1", "Datum 1-2", "Datum 1-3"),
-            ("Datum 2-1", "Datum 2-2", "Datum 2-3"),
-            ("Datum 3-1", "Datum 3-2", "Datum 3-3"),
-        )
-    ]
-
-    #Block("Block with Process Table")[
-
-        This is a sample block that contains an auto-numbered "process" table (ie, steps, stages etc.)
-
-        #ProcessTable(
-            "Step",
-            "Action",
+#Section("Tabular Information Types")[
+    #Block("Procedures")[
+        We can present procedures as either "Step/Action" or "If/Then" tables:
+        #Table-StepAction(
             "Open the box.",
             [Look inside...
 
@@ -46,7 +20,45 @@
             ],
             "Close the box"
         )
+        #Table-IfThen(
+            ("The box is not already open", "Open the box"),
+            ("The box is empty", "Call the manufacturer"),
+            ("The item is damaged", "Call the shipper."),
+        )
     ]
+
+    #Block("Processes")[
+        We can present processes as either "Stage/Description" or "When/Then" tables (I don't see much distinction between If/Then and When/Then though)
+        #Table-StageDescription(
+            ("Startup", "Start the engine using either the pull-string or electronic ignition (if available)."),
+            ("Run it..", "Mow your lawn"),
+            ("Shutdown", "Shut down your engine, _carefully_ check for debris"),
+        )
+        #Table-WhenThen(
+            ("The blade doesn't seem to cut cleanly", "Sharpen it"),
+            ("The engine doesn't start", "Check for gas in the tank"),
+        )
+    ]
+
+    #Block("Structures")[
+
+        We can present structural information using either Part/Function or Part/Description tables (FWIW, I don't see much distinction between these though).
+
+        #Table-PartFunction(
+            ("Blade", "Cuts the grass"),
+            ("Engine", "Rotates the blade through one or more pistons and internal combustion"),
+            ("Fuel Tank", "Holds gasoline for the engine"),
+        )
+
+        #Table-PartDescription(
+            ("Blade", "Cuts the grass"),
+            ("Motor", "Transfers electrical current into rotation velocity to rotate the blade"),
+            ("Battery", "Rechargeable cell to provide electricity to run the motor"),
+        )
+
+    ]
+]
+#Section("Typography")[
 
     #Block("\"Regular\" Typography")[
 
@@ -63,9 +75,33 @@
         3. Step C
     ]
 
+    #Block("Block with Classic Table")[
+
+        This is a sample block that contains a simple, "classic" table.
+
+        #Table-Classic(
+            ("Long Column 1", "Column 2", "Column 3"),
+            ("1-1", "Datum 1-2", "Datum 1-3"),
+            ("2-1", "Datum 2-2", "Datum 2-3"),
+            ("3-1", "Datum 3-2", lorem(20)),
+        )
+    ]
+
+    #Block("Block with Modern Table")[
+
+        This is a sample block that contains a simple, modern table (the Classic table above *really* looks _old_ to my eyes even though I lived through the era!)
+
+        #Table-Modern(
+            ("Column 1", "Column 2", "Column 3"),
+            ("Datum 1-1", "Datum 1-2", "Datum 1-3"),
+            ("Datum 2-1", "Datum 2-2", "Datum 2-3"),
+            ("Datum 3-1", "Datum 3-2", "Datum 3-3"),
+        )
+    ]
+
     // Procedure
     #Block(Procedures)[
-        Procedures to explain how to do something (see also "#ProcessTable")...
+        Procedures to explain how to do something (see also "#Table-StepAction")...
 
         #Procedures("How to Install",
             (
@@ -101,7 +137,7 @@
     #Block("Multi-Page Block")[
         Another Block with a LOT of text to see happens on pagination.
 
-        #ModernTable(
+        #Table-Modern(
             ("Long Column Title 1", "Column 2", "Column 3"),
             ("1-1", "Datum 1-2", "Datum 1-3"),
             ("2-1", "Datum 2-2", "Datum 2-3"),

@@ -111,11 +111,11 @@ class TestTypstInfoMapping:
         assert return_code == 0, f"Expected success but got error: {stderr}"
 
     def test_valid_modern_table(self, infomap_path):
-        """Test that ModernTable works correctly."""
+        """Test that Modern Table works correctly."""
         content = f"""
     #import "{infomap_path}": *
 
-    #ModernTable(
+    #Table-Modern(
         ("Header1", "Header2"),
         ("Data1", "Data2"),
         ("Data3", "Data4")
@@ -125,11 +125,11 @@ class TestTypstInfoMapping:
         assert return_code == 0, f"Expected success but got error: {stderr}"
 
     def test_valid_classic_table(self, infomap_path):
-        """Test that ClassicTable works correctly."""
+        """Test that Classic Table works correctly."""
         content = f"""
     #import "{infomap_path}": *
 
-    #ClassicTable(
+    #Table-Classic(
         ("Header1", "Header2"),
         ("Data1", "Data2"),
         ("Data3", "Data4")
@@ -139,13 +139,11 @@ class TestTypstInfoMapping:
         assert return_code == 0, f"Expected success but got error: {stderr}"
 
     def test_process_table_with_steps(self, infomap_path):
-        """Test ProcessTable with multiple steps."""
+        """Test Process Table with multiple steps."""
         content = f"""
     #import "{infomap_path}": *
 
-    #ProcessTable(
-        "Step",
-        "Action",
+    #Table-StepAction(
         "Step 1 description",
         "Step 2 description",
         "Step 3 description"
@@ -180,21 +178,12 @@ class TestTypstInfoMapping:
         ]
 
         #Block("Data Table")[
-            #ModernTable(
+            #Table-Modern(
                 ("Item", "Count"),
                 ("Apples", "5"),
                 ("Oranges", "3")
             )
         ]
-    ]
-
-    #Section("Process Section")[
-        #ProcessTable(
-            "Assembly Steps",
-            "Attach component A",
-            "Connect to component B",
-            "Test functionality"
-        )
     ]
     """
         return_code, stdout, stderr = self.run_typst_test(content, infomap_path)

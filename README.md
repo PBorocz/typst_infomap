@@ -1,77 +1,87 @@
 # Information Mapping for Typst
 
-A simple Typst library implementing 'Information Mapping®' methodology for creating structured, professional documents with consistent formatting and clear visual hierarchy.
+A simple Typst library implementing the "Information Mapping®" formatting to create structured documents with consistent formatting and clear visual hierarchy.
 
-## Overview
+## Background
 
-Information Mapping is a structured writing methodology that emphasizes:
-- **Chunking**: Breaking information into digestible units
-- **Labeling**: Clear, descriptive headings for each section
-- **Relevance**: Grouping related information together
-- **Consistency**: Standardized formats throughout
-- **Visual Structure**: Clean layouts with proper spacing and hierarchy
+"Information Mapping®" is a structured writing methodology that recognises that the majority of writing for professional purposes fall into one of size information _types_:
 
-This library provides Typst functions that make it easy to create documents following these principles.
+| Type          | Description                               |
+|---------------|-------------------------------------------|
+| **Procedure** | Instructions on how to do something       |
+| **Process**   | Description of how something works        |
+| **Principle** | Description of a standard or a convention |
+| **Concept**   | Description of a new idea or object       |
+| **Structure** | Description of an object’s components     |
+| **Fact**      | Empirical information                     |
 
-## Features
+Presenting content across these information types must reflect the following principles:
 
-### Document Structure
-- **Map**: Document-level setup with headers, footers, and consistent typography
-- **Section**: Major document divisions with automatic styling
-- **Block**: Core content blocks with hanging titles and horizontal separators
+- **Chunking**: Break information into digestible units
+- **Labeling**: Provide clear, descriptive headings for each section
+- **Relevance**: Group related information together in a consistent format
 
-### Tables
-- **ModernTable**: Clean tables with header emphasis and minimal borders
-- **ClassicTable**: Traditional bordered tables with consistent alignment
-- **ProcessTable**: Step-numbered tables for procedures and workflows
+From a practical perspective, the tools provided by Information Mapping® over the last several decades emphasise both consistency and a clean visual structure.
 
-### Lists and Procedures
-- **Procedures**: Numbered steps with boxed numbers and proper alignment
-- **Definitions**: Term-definition pairs with consistent formatting
-- **References**: Cross-reference blocks with arrow indicators
+Over the years, I've found the presentational aspects of Information Mapping® extremely valuable; almost "forcing" you to incorporate the principles above through a structured meta-model yet providing an easy-to-navigate (almost speed-read) through complex material.
 
-### Typography
-- Base font size system with relative scaling
-- Consistent spacing and margins
-- Sans-serif headers and footers with serif body text
-- Automatic page numbering and date stamps
+However, I've also always found it difficult to manually achieve this formatting. After considering the use of LaTeX (through the excellent [limap](https://ctan.org/pkg/limap "limap") package), I found the [Typst](https://typst.app/ "Typst") environment. While still embedding markup in content, this seemed a much more modern and friendly environment for high-quality pdf generation.
 
 ## Installation
 
-1. Download `infomap.typ` to your project directory
+1. Download `infomap.typ` to your project directory.
 2. Import the library in your Typst documents:
 
 ```typst
 #import "infomap.typ": *
 ```
 
-## Quick Start
+## Features
+
+### Faithful Meta-Document Model
+
+As close to a _true_ model of the original method as I could do, incorporating the following _meta\-model_:
+
+- **Map**: Document-level setup with headers, footers, and consistent typography; Can contain either one or many Sections or Blocks
+- **Section**: Major divisions with automatic styling (optional); Can contain one or many Blocks
+- **Block**: Core content blocks with hanging titles and horizontal separators; Can contain other Blocks.
+
+### Consistent Typography
+- Base font size system with relative scaling
+- Consistent spacing and margins
+- Sans-serif headers and footers with serif body text
+- Automatic page numbering and date stamps.
+
+## Sample Document
+
+(This can also be found in the samples directory [readme_sample.typ](sample/readme_sample.typ))
 
 ```typst
 #import "infomap.typ": *
 #show: Map.with("Document Title")
 
-#Section("Introduction")[
-  #Block("Overview")[
-	This document demonstrates Information Mapping principles
+#Block("Overview")[
+	This document demonstrates Information Mapping® principles
 	using structured content blocks and consistent formatting.
-  ]
 
-  #Block("Key Features")[
-	The main advantages include:
+	Key features include:
+
 	- Clear visual hierarchy
 	- Consistent formatting
 	- Easy maintenance
-  ]
 ]
 
-#Section("Process Details")[
-  #ProcessTable(
-	"Assembly Steps",
-	"Remove components from packaging",
-	"Connect power supply to main unit",
-	"Run initial system diagnostics"
-  )
+#Section("A Section")[
+	#Block("A Block")[
+		#lorem(30)
+	]
+	#Block("How To Start Your Unit")[
+		#Table-StepAction(
+			"Remove components from packaging.",
+			"Connect power supply to main unit.",
+			"Run initial system diagnostics."
+		)
+	]
 ]
 ```
 
@@ -79,18 +89,16 @@ This library provides Typst functions that make it easy to create documents foll
 
 ### Document Setup
 
-#### `Map(title, content)`
-Sets up document-wide formatting including headers, footers, margins, and typography.
-
-```typst
-#show: Map.with("My Document Title")
-```
-
-**Features:**
+#### `Map(title)`
+Sets up document-wide formatting:
 - Custom title with "(continued)" on subsequent pages
 - Date in footer (left) and page numbers (right)
 - Sans-serif headers/footers, serif body text
 - Consistent margins and spacing
+
+```typst
+#show: Map.with("My Document Title")
+```
 
 ### Content Structure
 
@@ -104,7 +112,10 @@ Creates major document sections with emphasized titles.
 ```
 
 #### `Block(title, content...)`
-Core Information Mapping content blocks with hanging titles.
+Core content blocks with
+- Horizontal line separator above each block
+- Left-hanging bold title
+- Proper spacing between paragraphs
 
 ```typst
 #Block("Block Title")[
@@ -114,51 +125,37 @@ Core Information Mapping content blocks with hanging titles.
 ]
 ```
 
-**Features:**
-- Horizontal line separator above each block
-- Left-hanging bold title
-- Proper spacing between paragraphs
+### Information Type-Based Tables
 
-### Tables
-
-#### `ModernTable(headers, rows...)`
-Clean tables with minimal borders and header emphasis.
+For use in Procedure, Process and Structure information types, we provide bespoke table to ease content creation. For example:
 
 ```typst
-#ModernTable(
-  ("Column 1", "Column 2", "Column 3"),
-  ("Data 1-1", "Data 1-2", "Data 1-3"),
-  ("Data 2-1", "Data 2-2", "Data 2-3")
+#Table-StepAction(
+  "Open the box.",
+  "Look inside...",
+  "Close the box",
+)
+
+#Table-IfThen(
+  ("The box is not already open", "Open the box"),
+  ("The box is empty", "Call the manufacturer"),
+  ("The item is damaged", "Call the shipper."),
 )
 ```
 
-#### `ClassicTable(headers, rows...)`
-Traditional bordered tables.
+Also provided are:
 
-```typst
-#ClassicTable(
-  ("Header A", "Header B"),
-  ("Value 1", "Value 2"),
-  ("Value 3", "Value 4")
-)
+```
+#Table-StageDescription(..(stage, description))
+#Table-WhenThen(..(when, then))
+#Table-PartDescription(..(part, description))
 ```
 
-#### `ProcessTable(description_header, steps...)`
-Automatically numbered process tables.
 
-```typst
-#ProcessTable(
-  "Installation Steps",
-  "Download the software package",
-  "Run the installer as administrator",
-  "Follow the setup wizard prompts"
-)
-```
-
-### Lists and Procedures
+### Custom Non-Tabular Lists
 
 #### `Procedures(title, steps)`
-Numbered procedures with boxed step numbers.
+Numbered procedures with boxed step numbers and proper alignment.
 
 ```typst
 #Procedures("Setup Process", (
@@ -169,7 +166,7 @@ Numbered procedures with boxed step numbers.
 ```
 
 #### `Definitions(term_definition_pairs)`
-Structured definition lists.
+Term-definition pairs with consistent formatting.
 
 ```typst
 #Definitions((
@@ -188,6 +185,44 @@ Cross-reference blocks with consistent formatting.
   "Appendix A: Troubleshooting Guide",
   "Chapter 5: Advanced Features"
 ))
+```
+
+### Raw Tables
+
+When dedicated tables based on information type aren't sufficient, two generic tables layouts are also provided (and serve as underlying tables for those above).
+
+#### `Table-Modern(headers, rows...)`
+Clean tables with minimal borders and header emphasis.
+
+```typst
+#Table-Modern(
+  ("Column 1", "Column 2", "Column 3"),
+  ("Data 1-1", "Data 1-2", "Data 1-3"),
+  ("Data 2-1", "Data 2-2", "Data 2-3")
+)
+```
+
+#### `Table-Class(headers, rows...)`
+Traditional bordered tables meant to look more like "classic" Microsoft Word tables from the 1990's.
+
+```typst
+#Table-Classic(
+  ("Header A", "Header B"),
+  ("Value 1", "Value 2"),
+  ("Value 3", "Value 4")
+)
+```
+
+#### `Table-StepAction(description_header, steps...)`
+Automatically numbered step/action tables.
+
+```typst
+#Table-StepAction(
+  "Installation Steps",
+  "Download the software package",
+  "Run the installer as administrator",
+  "Follow the setup wizard prompts"
+)
 ```
 
 ## Development
@@ -272,13 +307,6 @@ Override default styles by modifying the library or using Typst's `#show` rules:
 #set text(font: "Arial")           // Change default font
 ```
 
-## Examples
-
-See the `samples/` directory for complete example documents demonstrating:
-- Multi-section documents with complex layouts
-- Integration of tables, lists, and procedures
-- Proper Information Mapping structure and flow
-
 ## Requirements
 
 - Typst 0.11.0 or later
@@ -303,6 +331,9 @@ The trademark rights remain with their respective owners.
 
 Open a PR!
 
-## Acknowledgments
+## References
 
-Based on "Information Mapping" methodology developed by Robert Horn. Designed for the Typst typesetting system.
+- [Information Mapping](https://informationmapping.com/)
+- [Typst](https://typst.app/ "Typst")
+- [limap](https://ctan.org/pkg/limap "limap")
+- [Introduction to Information Mapping by Iva Cheung](https://ivacheung.com/2012/11/introduction-to-information-mapping/)
