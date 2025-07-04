@@ -1,19 +1,18 @@
 #import "infomap.typ": *
-#show: Map.with("Sample Map")
+#show: Document.with("Sample Map")
 
 // Usage:
-#Section("A Section Heading")[
+#Map("A Map Heading")[
 
     #Block("Block with Text")[#lorem(50)]
 ]
 
-#Section("Tabular Information Types")[
+#Map("Tabular Information Types")[
     #Block("Procedures")[
         We can present procedures as either "Step/Action" or "If/Then" tables:
         #Table-StepAction(
             "Open the box.",
             [Look inside...
-
                 - evaluate the beauty
                 - smell the aroma (?!)
                 - decide how long you want to keep doing this.
@@ -58,7 +57,7 @@
 
     ]
 ]
-#Section("Typography")[
+#Map("Typography")[
 
     #Block("\"Regular\" Typography")[
 
@@ -127,13 +126,13 @@
         Dedicated format to provide references...
 
         #References("Related Topics",
-            ("Section 2.1: Basic Concepts", "Appendix A: Troubleshooting")
+            ("Map 2.1: Basic Concepts", "Appendix A: Troubleshooting")
         )
     ]
 
 ]
 
-#Section("SECOND SECTION HEADING")[
+#Map("SECOND MAP HEADING")[
     #Block("Multi-Page Block")[
         Another Block with a LOT of text to see happens on pagination.
 
@@ -148,14 +147,14 @@
     ]
 ]
 
-#Section("Small Section #1")[
-    #Block("Small Section Block")[
+#Map("Small Map #1")[
+    #Block("Small Map Block")[
         #lorem(100)
     ]
 ]
 
-#Section("Small Section #2")[
-    #Block("Another Small Section Block")[
+#Map("Small Map #2")[
+    #Block("Another Small Map Block")[
         #lorem(100)
     ]
 ]

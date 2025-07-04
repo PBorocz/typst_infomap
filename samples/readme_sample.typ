@@ -1,18 +1,19 @@
 #import "infomap.typ": *
-#show: Map.with("Document Title")
+#show: Document.with("Document Title")
 
-#Block("Overview")[
-    This document demonstrates Information Mapping® principles
-    using structured content blocks and consistent formatting.
 
-    Key features include:
+#Map("A Map")[
 
-    - Clear visual hierarchy
-    - Consistent formatting
-    - Easy maintenance
-]
+    #Block("Overview")[
+        This document demonstrates Information Mapping® principles using structured content blocks and consistent formatting.
 
-#Section("A Section")[
+        Key features include:
+
+        - Clear visual hierarchy
+        - Consistent formatting
+        - Easy maintenance
+    ]
+
     #Block("A Block")[
         #lorem(30)
     ]

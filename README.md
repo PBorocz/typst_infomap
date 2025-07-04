@@ -42,8 +42,8 @@ However, I've also always found it difficult to manually achieve this formatting
 
 As close to a _true_ model of the original method as I could do, incorporating the following _meta\-model_:
 
-- **Map**: Document-level setup with headers, footers, and consistent typography; Can contain either one or many Sections or Blocks
-- **Section**: Major divisions with automatic styling (optional); Can contain one or many Blocks
+- **Document**: Document-level setup with headers, footers, and consistent typography; Can contain either one or many Maps or Blocks
+- **Map**: Major divisions with automatic styling (optional); Can contain one or many Blocks
 - **Block**: Core content blocks with hanging titles and horizontal separators; Can contain other Blocks.
 
 ### Consistent Typography

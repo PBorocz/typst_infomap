@@ -83,12 +83,12 @@
 #show list: set list(marker: "•", indent: 1em, body-indent: 0.5em)
 
 // =============================================================================
-// Setup up our "Map", used like this:
+// Setup up our "Document", used like this:
 // #import "infomap.typ": *
-// #show: Map.with("This is our Map Title")
+// #show: Document.with("This is our Map Title")
 // =============================================================================
-#let Map(title, sections_or_blocks) = [
-    #assert(title != none and title != "", message: "Sorry, Map title is required.")
+#let Document(title, maps_or_blocks) = [
+    #assert(title != none and title != "", message: "Sorry, a Document title is required.")
     #set par(justify: false)
     #set text(size: base-size)
     #set page(
@@ -96,41 +96,55 @@
 
         margin: (left: 1cm, right: 1cm, top: 3cm, bottom: 2cm),
 
-        header: context [
-            #if counter(page).get().first() == 1 [
-                #set text(size: base-size + 2pt, weight: "bold", font: "Arial")  // or "Helvetica", "Liberation Sans", etc.
-                #align(left, title)
-            ] else [
-                #text(size: base-size + 2pt, weight: "bold", font: "Arial")[#title]
-                #text(size: base-size - 2pt, weight: "regular", fill: gray)[(continued)]
-            ]
-        ],
-        header-ascent: 2em,  // Increase this value for more space below header
-
         footer: context [
             #set text(base-size - 6pt, font: "Arial") // With context, this pertains to just the footer.
             #grid(
-                columns: (1fr, 1fr),
-                align: (left, right),
+                columns: (1fr, 1fr, 1fr),
+                align: (left, center, right),
                 datetime.today().display(),
+                [#title],
                 counter(page).display("1 of 1", both: true)
             )
         ],
         footer-descent: 2em,
     )
 
-    #sections_or_blocks
+    #maps_or_blocks
 ]
 
+// =============================================================================
+// Display/Define a new Map, ie. a new page, page-header and left-hanging title and indented content.
+// =============================================================================
+#let map_pages = state("map-pages", (:)) // Cache of map-titles seen thus far.
 
-// =============================================================================
-// Display a selection, ie. a title and a set of blocks (ie. content)
-// =============================================================================
-#let Section(title, blocks) = [
-    #assert(title != none and title != "", message: "Sorry, Section title is required.")
-    #show heading.where(level: 2): it => text(fill: blue)[#it]
-    #align(left)[#text(size: base-size + 2pt, weight: "bold")[#title]]
-    #v(1em)
+#let Map(map_title, blocks) = [
+    #assert(map_title != none and map_title != "", message: "Sorry, a Map title is required.")
+    #context {
+        let current_page = counter(page).get().first()
+        map_pages.update(pages => {
+            if map_title not in pages {
+                // Note: We ARE assuming here someone won't use Title-1,
+                // Title-2 and then Title-1 again in the same document!
+                pages.insert(map_title, current_page)
+            }
+            pages
+        })
+    }
+    #set page(
+        header: context [
+            #let current_page = counter(page).get().first()
+            #let start_page = map_pages.get().at(map_title, default: current_page)
+
+            #align(left)[
+                // Always display our Map Title but add a "continued" if it's a subsequent page.
+                #text(size: base-size + 2pt, weight: "bold", font: "Arial")[#map_title]
+                #if current_page != start_page [
+                    #text(size: base-size - 2pt, weight: "regular", fill: gray)[(continued)]
+                ]
+            ]
+        ],
+        header-ascent: 2em,
+    )
     #blocks
 ]
 
