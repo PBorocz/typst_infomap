@@ -33,24 +33,6 @@
 // margin: (left: base-size * 0.7, right: base-size * 0.7, top: base-size * 2.1, bottom: base-size * 1.4),
 // ```
 
-// **4. Add a comment block at the top:**
-// ```typst
-// /*
-//  * Information Mapping Library for Typst
-//  * Provides structured document formatting following IM methodology
-//  * Usage: #import "infomap.typ": *
-//  *        #show: Map.with("Document Title")
-//  */
-// ```
-
-// **5. Consider adding error checking:**
-// ```typst
-// #let Block(title, ..content) = {
-//   assert(title != none and title != "", message: "Block title cannot be empty")
-//   // ... rest of function
-// }
-// ```
-
 // **6. Optional: Add a utility for consistent spacing:**
 // ```typst
 // #let spacing = (
@@ -77,10 +59,19 @@
 //
 
 // Document Defaults
-#let base-size = 14pt // All other sizes are expressed as deltas from this!
+#let base-size = 12pt // All other sizes are expressed as deltas from this!
+#let fonts_header_footer = ("Helvetica Neue", "Avenir Next", "Arial")
+#let fonts_body = ("Libertinus Serif", "Helvetica", "Georgia")
+#let current_datetime = sys.inputs.at("current_datetime", default: "")
 
-// Simple overrides (not worth setting up dedicated functions for)
-#show list: set list(marker: "•", indent: 1em, body-indent: 0.5em)
+#let spacing = (
+    // Most of these are based on considering sample Information Mapping documents
+    // and eye-balling the right amount of spacing.
+    list-indent: 0em,
+    body-indent: 0.5em,
+    column-gutter: 1.25em,
+    row-gutter: 0.5em,
+)
 
 // =============================================================================
 // Setup up our "Document", used like this:
@@ -90,24 +81,26 @@
 #let Document(title, maps_or_blocks) = [
     #assert(title != none and title != "", message: "Sorry, a Document title is required.")
     #set par(justify: false)
-    #set text(size: base-size)
+    #set text(size: base-size, font: fonts_body)
     #set page(
         paper: "us-letter",
 
         margin: (left: 1cm, right: 1cm, top: 3cm, bottom: 2cm),
 
         footer: context [
-            #set text(base-size - 6pt, font: "Arial") // With context, this pertains to just the footer.
+            #set text(base-size - 6pt, font: fonts_header_footer) // Since we're in context, this pertains to just the footer.
             #grid(
                 columns: (1fr, 1fr, 1fr),
                 align: (left, center, right),
-                datetime.today().display(),
+                [#if current_datetime != "" [Generated: #current_datetime]],
                 [#title],
                 counter(page).display("1 of 1", both: true)
             )
         ],
-        footer-descent: 2em,
+        footer-descent: 18pt
     )
+    #show list: set list(marker: "•", indent: spacing.list-indent, body-indent: spacing.body-indent)
+    #show link: it => underline(text(fill: blue, size: base-size - 1pt)[#it])
 
     #maps_or_blocks
 ]
@@ -137,13 +130,13 @@
 
             #align(left)[
                 // Always display our Map Title but add a "continued" if it's a subsequent page.
-                #text(size: base-size + 2pt, weight: "bold", font: "Arial")[#map_title]
+                #text(size: base-size + 2pt, weight: "bold", font: fonts_header_footer)[#map_title]
                 #if current_page != start_page [
-                    #text(size: base-size - 2pt, weight: "regular", fill: gray)[(continued)]
+                    #text(size: base-size - 2pt, weight: "regular", font: fonts_header_footer, fill: gray)[(continued)]
                 ]
             ]
         ],
-        header-ascent: 2em,
+        header-ascent: 20pt
     )
     #blocks
 ]
@@ -155,8 +148,8 @@
     #assert(title != none and title != "", message: "Sorry, Block title is required.")
     #grid(
         columns: (15%, auto),
-        column-gutter: 1.25em,
-        row-gutter: 0.5em,
+        column-gutter: spacing.column-gutter,
+        row-gutter: spacing.row-gutter,
         align: (left + top, left + top),
 
         // First row, empty cell followed by block line marker
