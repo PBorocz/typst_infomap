@@ -58,7 +58,7 @@ As close to a _true_ model of the original method as I could do, incorporating t
 
 ```typst
 #import "infomap.typ": *
-#show: Map.with("Document Title")
+#show: Document.with("Document Title")
 
 #Block("Overview")[
 	This document demonstrates Information Mapping® principles
@@ -71,7 +71,7 @@ As close to a _true_ model of the original method as I could do, incorporating t
 	- Easy maintenance
 ]
 
-#Section("A Section")[
+#Map("A Map")[
 	#Block("A Block")[
 		#lorem(30)
 	]
@@ -89,7 +89,7 @@ As close to a _true_ model of the original method as I could do, incorporating t
 
 ### Document Setup
 
-#### `Map(title)`
+#### `Document(title)`
 Sets up document-wide formatting:
 - Custom title with "(continued)" on subsequent pages
 - Date in footer (left) and page numbers (right)
@@ -97,16 +97,16 @@ Sets up document-wide formatting:
 - Consistent margins and spacing
 
 ```typst
-#show: Map.with("My Document Title")
+#show: Document.with("My Document Title")
 ```
 
 ### Content Structure
 
-#### `Section(title, content)`
+#### `Map(title, content)`
 Creates major document sections with emphasized titles.
 
 ```typst
-#Section("Section Title")[
+#Map("Map Title")[
   // Content blocks go here
 ]
 ```
@@ -229,23 +229,20 @@ Automatically numbered step/action tables.
 
 ### Building Sample Documents
 
-This project includes a `justfile` for easy compilation of sample documents:
+This project includes a `justfile` to document common commands.
 
 ```bash
-# Compile all samples
+# Show all justfile targets available
 just
 
+# Compile all samples
+just compile-all
+
 # Compile specific sample
-just compile a
+just compile sample.typ
 
-# Clean generated PDFs
+# Clean/rm generated PDFs
 just clean
-
-# Watch for changes and auto-recompile
-just watch a
-
-# List all available commands
-just --list
 ```
 
 ### Testing
@@ -254,16 +251,16 @@ The library includes comprehensive tests using pytest:
 
 ```bash
 # Install dependencies
-pip install pytest
+uv install pytest
 
 # Run all tests
-python test_infomap.py
+just test
 
 # Run with verbose output
-python test_infomap.py -v
+just test -v
 
 # Run specific tests
-python test_infomap.py -k "test_valid_block"
+just test -k "test_valid_block"
 ```
 
 **Test Features:**
@@ -275,13 +272,16 @@ python test_infomap.py -k "test_valid_block"
 ### Project Structure
 
 ```
+
 ├── infomap.typ           # Main library file
-├── test_infomap.py       # Test suite
+├── README.md             # Primary documentation
+├── LICENSE               # Project license declaration
 ├── justfile              # Build automation for managing sample files.
 ├── samples/              # Example documents
 │   ├── full_document.typ
 │   ├── electronic_product_policy.typ
-│   └── infomap.typ       # Symlink to main library
+│   └── readme_sample.typ
+├── tests/*               # Test support
 └── README.md
 ```
 
@@ -313,7 +313,7 @@ Override default styles by modifying the library or using Typst's `#show` rules:
 - For development and testing:
   - [python 3.11+](https://www.python.org/downloads/)
   - [uv](https://docs.astral.sh/uv/#installation) (for package management)
-  - [just](https://just.systems/man/en/) (to manage generation of sample files)
+  - [just](https://just.systems/man/en/) (to manage generation of sample files and test infrastructure)
 
 ## License
 
