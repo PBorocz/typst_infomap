@@ -1,67 +1,23 @@
-// ## Minor Improvements
-
-// **1. Consistent naming for ProcessTable:**
-// ```typst
-// #let ProcessTable(description_header, ..steps) = [
-//   #table(
-//     columns: 2,
-//     stroke: 0.75pt,
-//     align: (center, left),
-
-//     [*Step*],  // Hardcode "Step" since it's always the same
-//     [*#description_header*],
-
-//     ..steps.pos().enumerate().map(((index, step)) => (
-//       [#(index + 1)],
-//       [#step]
-//     )).flatten()
-//   )
-// ]
-// ```
-
-// **2. Add consistent spacing after elements:**
-// ```typst
-// #let Section(title, blocks) = [
-//     // ... existing code ...
-//     #blocks
-//     #v(1em)  // Add consistent spacing after sections
-// ]
-// ```
-
-// **3. Consider making margins consistent with base-size:**
-// ```typst
-// margin: (left: base-size * 0.7, right: base-size * 0.7, top: base-size * 2.1, bottom: base-size * 1.4),
-// ```
-
-// **6. Optional: Add a utility for consistent spacing:**
-// ```typst
-// #let spacing = (
-//   small: base-size * 0.25,
-//   medium: base-size * 0.5,
-//   large: base-size * 1.0
-// )
-// ```
-
-// Overall, this is excellent work! The library is well-structured, consistent, and follows good Typst practices.
-
-
-
 //
 // "Information Mapping" formatting  utilities for Typst
 // Provides structured document formatting following information mapping methodology
 //
 // Usage: #import "infomap.typ": *
-//        #show: Map.with("Document Title")
+//        #show: Document.with("This is our Map Title")
+//        #Map("Sample Map with a single Block")[
+//            #Block("Sample Block")[
+//                #lorem(50)
+//            ]
+//        ]
 //
 // Note: This is completely independent of Information Mapping the company. They retain all rights to
 // the methodology and no ownership or claims are intended by release of these utilities.
 //
 //
-
 // Document Defaults
 #let base-size = 12pt // All other sizes are expressed as deltas from this!
 #let fonts_header_footer = ("Helvetica Neue", "Avenir Next", "Arial")
-#let fonts_body = ("Libertinus Serif", "Helvetica", "Georgia")
+#let fonts_body = ("New Computer Modern", "Helvetica", "Georgia")
 #let current_datetime = sys.inputs.at("current_datetime", default: "")
 
 #let spacing = (
@@ -74,9 +30,7 @@
 )
 
 // =============================================================================
-// Setup up our "Document", used like this:
-// #import "infomap.typ": *
-// #show: Document.with("This is our Map Title")
+// Setup up our "Document"
 // =============================================================================
 #let Document(title, maps_or_blocks) = [
     #assert(title != none and title != "", message: "Sorry, a Document title is required.")
@@ -276,7 +230,6 @@
 #let Table-PartDescription(..steps) = [
     #Table-Generic(("Part", "Description"), ..steps)
 ]
-
 
 // Procedure/Step Lists**
 #let Procedures(title, steps) = [
